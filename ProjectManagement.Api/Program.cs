@@ -20,7 +20,7 @@ namespace ProjectManagement.Api
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<ProjectManagementContext>();
-                //context.SeedInitialData();
+                context.SeedInitialData();
             }
             host.Run();
         }

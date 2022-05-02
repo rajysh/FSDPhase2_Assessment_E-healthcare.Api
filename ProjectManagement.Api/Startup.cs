@@ -29,19 +29,19 @@ namespace ProjectManagement.Api
             //string connectionString = Configuration.GetConnectionString("DefaultConnection");
             //string connectionString = "Server=W102XZP8Y2;Database=EHealthCareDB;Trusted_Connection=True;MultipleActiveResultSets=true";
             services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            //services.AddDbContext<ProjectManagementContext>(
-            //    options =>
-            //    {
-            //        //options.UseSqlServer(connectionString);
-            //        options.UseInMemoryDatabase("ProjectManagement");
-            //        options.UseLazyLoadingProxies();
-            //    }, ServiceLifetime.Transient);
-
             services.AddDbContext<ProjectManagementContext>(
                 options =>
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("MyConnection"));
+                    //options.UseSqlServer(connectionString);
+                    options.UseInMemoryDatabase("ProjectManagement");
+                    options.UseLazyLoadingProxies();
                 }, ServiceLifetime.Transient);
+
+            //services.AddDbContext<ProjectManagementContext>(
+            //    options =>
+            //    {
+            //        options.UseSqlServer(Configuration.GetConnectionString("MyConnection"));
+            //    }, ServiceLifetime.Transient);
 
             DependencyResolver.Init(this.RegisterDependencies(services).BuildServiceProvider());
             services.AddCors();

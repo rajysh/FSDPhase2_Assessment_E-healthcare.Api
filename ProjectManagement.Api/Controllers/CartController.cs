@@ -60,7 +60,7 @@ namespace ProjectManagement.Api.Controllers
 
         [Route("PlaceOrder/{userID}")]
         [HttpPost]
-        public async Task<IActionResult> PlaceOrder(long userID)
+        public async Task<IActionResult> PlaceOrder([FromRoute]long userID)
         {
             var userCart = Repository.Get().Where(i => i.OwnerID == userID).FirstOrDefault();
 
@@ -68,6 +68,7 @@ namespace ProjectManagement.Api.Controllers
             {
                 userCart = await Repository.Add(new Cart { OwnerID = userID });
             }
+            //userCart.Items = CartItemRepository.Get().Where(i => i.CartID == userCart.ID).ToList();
             foreach (var item in userCart.Items)
             {
                 CartItemRepository.Delete(item.ID);
@@ -90,7 +91,9 @@ namespace ProjectManagement.Api.Controllers
             return Ok();
         }
 
-        public async override Task<IActionResult> Delete(long id)
+        [Route("Delete/{id}")]
+        [HttpDelete]
+        public async override Task<IActionResult> Delete([FromRoute] long id)
         {
             await CartItemRepository.Delete(id);
             return Ok();

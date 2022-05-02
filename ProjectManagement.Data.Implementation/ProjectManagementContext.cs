@@ -74,8 +74,8 @@ namespace ProjectManagement.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=W102XZP8Y2;Database=EHealthCareDB;Trusted_Connection=True;MultipleActiveResultSets=true");
-            base.OnConfiguring(optionsBuilder);
+            //optionsBuilder.UseSqlServer("Server=W102XZP8Y2;Database=EHealthCareDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+            //base.OnConfiguring(optionsBuilder);
         }
     }
 }
