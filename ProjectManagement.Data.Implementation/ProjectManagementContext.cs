@@ -66,17 +66,16 @@ namespace ProjectManagement.Data
         }
 
         public DbSet<User> User { get; set; }
-
         public DbSet<Account> Account { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Cart> Cart { get; set; }
         public DbSet<CartItem> CartItem { get; set; }
         public DbSet<Order> Order { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{            
-        //    optionsBuilder.UseSqlServer("Server=W102XZP8Y2;Database=EHealthCareDB;Trusted_Connection=True;MultipleActiveResultSets=true");
-        //    base.OnConfiguring(optionsBuilder);
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=W102XZP8Y2;Database=EHealthCareDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

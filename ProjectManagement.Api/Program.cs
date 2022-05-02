@@ -19,7 +19,7 @@ namespace ProjectManagement.Api
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                //var context = services.GetRequiredService<ProjectManagementContext>();
+                var context = services.GetRequiredService<ProjectManagementContext>();
                 //context.SeedInitialData();
             }
             host.Run();

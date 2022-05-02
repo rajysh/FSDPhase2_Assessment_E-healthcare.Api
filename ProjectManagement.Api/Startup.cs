@@ -32,15 +32,15 @@ namespace ProjectManagement.Api
             //services.AddDbContext<ProjectManagementContext>(
             //    options =>
             //    {
-            //        options.UseSqlServer(connectionString);
-            //        //options.UseInMemoryDatabase("ProjectManagement");
-            //        //options.UseLazyLoadingProxies();
+            //        //options.UseSqlServer(connectionString);
+            //        options.UseInMemoryDatabase("ProjectManagement");
+            //        options.UseLazyLoadingProxies();
             //    }, ServiceLifetime.Transient);
 
             services.AddDbContext<ProjectManagementContext>(
                 options =>
                 {
-                options.UseSqlServer(Configuration.GetConnectionString("MyConnection"));
+                    options.UseSqlServer(Configuration.GetConnectionString("MyConnection"));
                 }, ServiceLifetime.Transient);
 
             DependencyResolver.Init(this.RegisterDependencies(services).BuildServiceProvider());

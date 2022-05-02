@@ -13,7 +13,7 @@ namespace ProjectManagement.Api.Controllers
         public ProductController(IBaseRepository<Category> repository)
         {
             CatRepository = repository;
-        }
+        }      
 
         [HttpPost("addMedicine")]
         public async Task<IActionResult> AddMedicine(Product product)
@@ -25,7 +25,7 @@ namespace ProjectManagement.Api.Controllers
         [HttpPut("updateMedicine")]
         public async Task<IActionResult> UpdateMedicine(Product product)
         {
-            return await base.Post(product);
+            return await base.Put(product);
 
         }
 
@@ -36,17 +36,16 @@ namespace ProjectManagement.Api.Controllers
         }
 
         [HttpGet("getMedicineById/{mid}")]
-        public IActionResult UpdateMedicine([FromRoute] long id)
+        public IActionResult UpdateMedicine([FromRoute] long mid)
         {
-            return base.Get(id);
+            return base.Get(mid);
 
         }
 
         [HttpDelete("deleteMedicineById/{mid}")]
-        public async Task<IActionResult> DeleteMedicine([FromRoute] long id)
+        public async Task<IActionResult> DeleteMedicine([FromRoute] long mid)
         {
-            return await base.Delete(id);
-
+            return await base.Delete(mid);
         }
     }
 }

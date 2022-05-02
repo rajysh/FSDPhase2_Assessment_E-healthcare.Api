@@ -22,22 +22,35 @@ namespace Ehealthcare.Api.Controllers
             UserRepository = UserRepo;
         }
 
+        [HttpGet("getAllUser")]
+        public IQueryable<User> Get()
+        {
+            return UserRepository.Get();
+        }
+
 
         [AllowAnonymous]
         [HttpPost]
         [Route("signup")]
-        public string Register(User user)
+        public async Task<IActionResult> Register(User user)
         {
+            AuthService authService;
+            AuthUserModel response;
             if (this.ModelState.IsValid)
             {
-                UserRepository.Add(user);
+                await UserRepository.Add(user);
+                LoginDto login = new LoginDto();
+                login.Email = user.Email;
+                login.Password = user.Password;
+                authService = new AuthService(UserRepository);
+                response = await authService.Authenticate(login).ConfigureAwait(true);
             }
             else
             {
-                return "User not created";
+                return this.BadRequest();
             }
 
-            return "User created";
+            return this.Ok(response);
         }
 
         [AllowAnonymous]

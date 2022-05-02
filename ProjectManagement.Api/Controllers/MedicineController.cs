@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Ehealthcare.Api.Controllers
 {
+    [Route("/api/")]
     [ApiController]
     public class MedicineController : Controller
     {

@@ -13,18 +13,46 @@ namespace ProjectManagement.Api.Controllers
     public class CartController : BaseController<Cart>
     {
         private readonly IBaseRepository<CartItem> CartItemRepository;
-        public CartController(IBaseRepository<CartItem> _CartRepository)
+        private IBaseRepository<Product> ProductRepository { get; set; }
+        private IBaseRepository<User> UserRepository { get; set; }
+
+        public CartController(IBaseRepository<CartItem> _CartRepository, IBaseRepository<Product> _ProductRepository, IBaseRepository<User> _UserRepository)
         {
             CartItemRepository = _CartRepository;
+            ProductRepository = _ProductRepository;
+            UserRepository = _UserRepository;
         }
 
-        [HttpGet("GetByUserID/{id}")]
-        public IActionResult Get(long userID)
+        [HttpGet("GetByUserID/{userID}")]
+        public IActionResult Get([FromRoute]long userID)
         {
             Cart result = Repository.Get().Where(i => i.OwnerID == userID).FirstOrDefault();
             if (result is null)
             {
                 return NoContent();
+            }
+            else                
+            {
+                result.Items = CartItemRepository.Get().Where(i => i.CartID == result.ID).ToList();
+
+                if (result.Items is null)
+                {
+                    result.Items = null;
+                }
+                else
+                {
+                    foreach (var item in result.Items)
+                    {
+                        item.Product = ProductRepository.Get().Where(i => i.ID == item.ProductID).FirstOrDefault();
+                        
+                    }
+                }
+
+                result.Owner = UserRepository.Get().Where(i => i.ID == result.OwnerID).FirstOrDefault();
+                if (result.Owner is null)
+                {
+                    result.Owner = null;
+                }
             }
 
             return Ok(result);
@@ -47,7 +75,7 @@ namespace ProjectManagement.Api.Controllers
             return Ok();
         }
 
-        [Route("Add/{productID}")]
+        [Route("Add/{productID}/{userID}")]
         [HttpPost]
         public async Task<IActionResult> Post(long productID, long userID)
         {
@@ -65,7 +93,7 @@ namespace ProjectManagement.Api.Controllers
         public async override Task<IActionResult> Delete(long id)
         {
             await CartItemRepository.Delete(id);
-            return Ok(); ;
+            return Ok();
         }
     }
 }

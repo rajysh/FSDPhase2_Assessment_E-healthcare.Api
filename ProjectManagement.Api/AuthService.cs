@@ -62,6 +62,7 @@ namespace Ehealthcare.Api
                     model.FirstName = user.FirstName;
                     model.LastName = user.LastName;
                     model.IsAdmin = user.IsAdmin;
+                    model.ID = user.ID;
                 }
             }).ConfigureAwait(true);
             return model;
