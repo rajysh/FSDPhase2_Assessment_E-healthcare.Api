@@ -1,37 +1,38 @@
-﻿using EHealthcare.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
+﻿using Ehealthcare.Api.Controllers;
+using Ehealthcare.Api;
 using NUnit.Framework;
-using ProjectManagement.Api.Controllers;
+using Moq;
+using EHealthcare.Entities;
 using ProjectManagement.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Moq.AutoMock;
+using ProjectManagement.Shared;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Api.Controllers;
 
-using System.Linq;
-
-namespace ProjectManagement.Api.Controllers.Tests
+namespace E_healthcare.ApiTests.Controllers
 {
     [TestFixture]
-    public class ProductControllerTests
+    public class ProductControllerTest
     {
-        private IBaseRepository<Category> CatRepository { get; set; }
-
-        
-
-        public async Task AddMedicine(Product product)
-        {
-            //return await base.Post(product);
-
-        }
+        private Mock<IBaseRepository<User>> UserRepository = new Mock<IBaseRepository<User>>();
+        private Mock<IBaseRepository<Category>> CategoryRepository = new Mock<IBaseRepository<Category>>();
+        private ProductController productControllerTest;
+        private Mock<IBaseRepository<Product>> BaseRepository = new Mock<IBaseRepository<Product>>();
 
         [Test]
-        public void UpdateMedicineTest()
+        public void AddMedicineTest()
         {
-            Assert.Pass();
-        }        
+            productControllerTest = new ProductController(CategoryRepository.Object);
+            var result = productControllerTest.AddMedicine(new Product()
+            {
+                Name = "Nutriosys Isabgol",
+                CompanyName = "Company1",
+                Price = 525,
+                ImageUrl = "https://m.media-amazon.com/images/I/51inZITDWAL._AC_UL320_.jpg"
+            });
 
-    }
+            Assert.AreEqual(result, true);
+        }        
+    }    
 }
